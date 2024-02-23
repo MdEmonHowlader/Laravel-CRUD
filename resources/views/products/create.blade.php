@@ -33,7 +33,7 @@
         <div class="row justify-content-center">
             <div class="col-sm-8">
                 <div class="card mt-3">
-                    <form method="POST" action="/products/store" enctype="multipart/form-data">
+                    <form method="POST" action="{{route('products.store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Name </label>

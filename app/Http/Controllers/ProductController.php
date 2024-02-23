@@ -15,10 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        
-       return view('products.index',[
-        'products'=>Product::get()
-       ]);
+        $products=Product::get();
+
+       return view('products.index',compact('products'));
      
     }
     /**
@@ -44,13 +43,22 @@ class ProductController extends Controller
         // dd($request->all());
         $imageName=time().'.'.$request->image->extension();
         $request->image->move(public_path('product'), $imageName);
-        $product =new Product();
-        $product->image=$imageName;
-        $product->name=$request->name;
-       $product->description=$request->description;
 
-        $product->save();
-        return back()->withSuccess('Product Create!!!');                                                                                  
+    //     $product =new Product();
+
+    //     $product->image=$imageName;
+    //     $product->name=$request->name;
+    //    $product->description=$request->description;
+
+       Product::insert([
+        'image'=>$imageName,
+        'name'=>$request->name,
+        'description'=>$request->description
+       ]);
+
+        // $product->save();
+        // return back()->withSuccess('Product Create!!!');
+        return redirect()->route('products.index');                                                                                  
     }
 
     /**
@@ -67,7 +75,8 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         //dd($id);
-        $product= Product::where('id',$id)->first();
+        // $product= Product::where('id',$id)->first();
+        $product = Product::findOrFail($id);
         return view('products.edit',['product'=>$product]);
     }
 
@@ -104,6 +113,9 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $product=Product::where('id', $id)->first();
+        if($product->image && file_exists(public_path("product/{$product->image}"))){
+            unlink(public_path("product/{$product->image}"));
+        }
         $product->delete();
         return back()->withSuccess('Product Delete!!!'); 
 

@@ -34,7 +34,7 @@
             <div class="col-sm-8">
                 <div class="card mt-3">
                     <h3 class="text-muted">Product Edit # {{$product->name}}</h1>
-                    <form method="POST" action="/product/{{$product->id}}/update" enctype="multipart/form-data">
+                    <form method="POST" action="{{route('products.update', $product->id)}}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">

@@ -34,17 +34,17 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($products as $product)
+            @foreach ($products as $key=> $product)
                 
             
             <tr>
-              <td>{{$loop->index}}</td>
+              <td>{{$key+1}}</td>
               <td>{{$product->name}}</td>
               <td>
-                <img src="product/{{$product->image}}" width="50" height="50">
+                <img src="{{asset('product/'.$product->image)}}" width="50" height="50">
               </td>
               <td>
-                <a href="product/{{$product->id}}/edit" class="btn btn-primary">Edit</a>
+                <a href="{{route('products.edit',$product->id)}}" class="btn btn-primary">Edit</a>
                 <a href="product/{{$product->id}}/delete" class="btn btn-danger">Delete</a>
               </td>
             </tr>
